@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 void trocar(int* a, int* b) {
     int temp = *a;
@@ -32,26 +33,27 @@ int main() {
     int N = 0, aux = 0, buffer[20];
     scanf("%d", &N);
 
-    int arr[N];
+    int* arr = (int*)malloc(N * sizeof(int));
     for (int i = 0; i < N; i++) {
         scanf("%d", &arr[i]);
     }
 
     quicksort(arr, 0, N - 1);
-    int pos = 0;
-    while (1) {
-        if (pos == N) break;
-        while (arr[pos] == arr[pos - 1]) pos++;
-        int count = 0;
-        aux = arr[pos];
-        for (int i = 0; i < N; i++) {
-            if (arr[i] == aux) {
-                count++;
-            }
+
+    int atual = arr[0], count = 1;
+
+    for (int i = 1; i < N; i++) {
+        if (arr[i] == atual) {
+            count++;
         }
-        printf("%d aparece %d vez(es)\n", aux, count);
-        pos++;
+        else {
+            printf("%d aparece %d vez(es)\n", atual, count);
+            atual = arr[i];
+            count = 1;
+        }
     }
+    printf("%d aparece %d vez(es)\n", atual, count);
+    free(arr);
 
     return 0;
 }
